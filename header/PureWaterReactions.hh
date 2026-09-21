@@ -2,7 +2,7 @@
 /// \brief Portable pure-water radiolysis + O2-derived reaction-table builder
 ///
 /// Self-contained, project-agnostic unit: no DnaChemistryWorld, DnaLogger, or
-/// other dnachem-min-specific includes -- only standard Geant4/Geant4-DNA
+/// other project-specific includes -- only standard Geant4/Geant4-DNA
 /// headers. Copy-paste portable to another Geant4-DNA project.
 ///
 /// Adds, directly to the supplied reaction table:
