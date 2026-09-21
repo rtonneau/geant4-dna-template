@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "additionalDirectories": [
+      "{{G4_SOURCE}}",
+      "{{G4_SOURCE}}/examples",
+      "{{KB_PATH}}"
+    ],
+    "deny": [
+      "Edit({{G4_SOURCE}}/**)"
+    ]
+  },
+
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File .claude/hooks/update-compile-cmd.ps1"
+          }
+        ]
+      }
+    ]
+  }
+}

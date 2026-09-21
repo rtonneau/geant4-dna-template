@@ -1,0 +1,56 @@
+
+**/build/
+/build-ninja/
+compile_commands.json
+.vscode/
+.cache/
+.claude/hooks/hook-posttooluse.log
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Linker files
+*.ilk
+
+# Debugger Files
+*.pdb
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# debug information files
+*.dwo
+
+# Ignore everything in build-ninja
+/build-ninja/**
+
+# But keep this one file tracked
+!/build-ninja/update-compile-cmd.ps1
+
+/.scratch/**
