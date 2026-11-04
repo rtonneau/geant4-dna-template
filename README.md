@@ -25,7 +25,7 @@ then `/g4-new my-project`.
 
 ## Placeholders
 
-`{{PROJECT_NAME}}`, `{{G4_SOURCE}}`, `{{G4_INSTALL}}`, `{{G4_VERSION}}`, `{{KB_PATH}}`, `{{VCPKG_TOOLCHAIN}}`. They appear only in `CMakeLists.txt`, `CLAUDE.md` and `.claude/` files. The template is not buildable by itself; build a generated project.
+`{{PROJECT_NAME}}`, `{{G4_SOURCE}}`, `{{G4_INSTALL}}`, `{{G4_VERSION}}`, `{{VCPKG_TOOLCHAIN}}`. They appear only in `CMakeLists.txt`, `CLAUDE.md` and `.claude/` files. The template is not buildable by itself; build a generated project.
 
 ## Notes
 

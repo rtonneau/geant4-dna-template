@@ -2,8 +2,6 @@
   "geant4SourcePath": "{{G4_SOURCE}}",
   "geant4InstallPath": "{{G4_INSTALL}}",
   "geant4Version": "{{G4_VERSION}}",
-  "kbPath": "{{KB_PATH}}",
-  "projectNotesPath": ".kb-notes",
 
   "build": {
     "system": "cmake",
@@ -18,8 +16,7 @@
     "toolchainFile": "{{VCPKG_TOOLCHAIN}}",
     "extraCMakeArgs": [],
     "compileCommands": {
-      "dir": "build-ninja",
-      "refreshHook": ".claude/hooks/update-compile-cmd.ps1"
+      "dir": "build-ninja"
     },
     "dependencies": {
       "geant4": ">=11.0 with DNA models",
