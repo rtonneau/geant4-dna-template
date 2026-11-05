@@ -18,7 +18,6 @@ param(
     [string]$G4Source,
     [string]$G4Install,
     [string]$G4Version,
-    [string]$KbPath,
     [string]$Toolchain,                         # e.g. <vcpkg>/scripts/buildsystems/vcpkg.cmake ("" = none)
     [switch]$NoBuild,                           # copy + fill placeholders only
     [switch]$NoSmoke,                           # skip the simulation run
@@ -46,7 +45,7 @@ if ($FromConfig) {
     if (-not $G4Source)  { $G4Source  = $cfg.geant4SourcePath }
     if (-not $G4Install) { $G4Install = $cfg.geant4InstallPath }
     if (-not $G4Version) { $G4Version = $cfg.geant4Version }
-    if (-not $KbPath)    { $KbPath    = $cfg.kbPath }
+
     if (-not $PSBoundParameters.ContainsKey("Toolchain")) { $Toolchain = $cfg.build.toolchainFile }
 }
 if (-not $G4Source -or -not $G4Install) {
@@ -55,7 +54,7 @@ if (-not $G4Source -or -not $G4Install) {
 if (-not (Test-Path -LiteralPath $G4Install)) { throw "Geant4 install path not found: $G4Install" }
 if (-not (Test-Path -LiteralPath $G4Source))  { throw "Geant4 source path not found: $G4Source" }
 if (-not $G4Version -and $G4Install -match 'geant4-v(\d+\.\d+\.\d+)') { $G4Version = $Matches[1] }
-if (-not $KbPath) { $KbPath = "$(Fwd $ProjectDir)/.kb" }
+
 if (-not $PSBoundParameters.ContainsKey("Toolchain") -and -not $FromConfig -and $env:VCPKG_ROOT) {
     $cand = Join-Path $env:VCPKG_ROOT "scripts\buildsystems\vcpkg.cmake"
     if (Test-Path $cand) { $Toolchain = $cand }
@@ -66,7 +65,7 @@ $tokens = @{
     "{{G4_SOURCE}}"       = (Fwd $G4Source)
     "{{G4_INSTALL}}"      = (Fwd $G4Install)
     "{{G4_VERSION}}"      = $G4Version
-    "{{KB_PATH}}"         = (Fwd $KbPath)
+
     "{{VCPKG_TOOLCHAIN}}" = (Fwd $Toolchain)
 }
 
@@ -74,7 +73,7 @@ $tokens = @{
 Step "Creating $ProjectDir"
 robocopy $TemplateRoot $ProjectDir /E /NFL /NDL /NJH /NJS /NP `
     /XD ".git" "scripts" "commands" "build" "build-ninja" ".cache" `
-    /XF "README.md" "compile_commands.json" "hook-posttooluse.log" | Out-Null
+    /XF "README.md" "compile_commands.json" | Out-Null
 if ($LASTEXITCODE -ge 8) { throw "robocopy failed (exit code $LASTEXITCODE)." }
 $global:LASTEXITCODE = 0
 
@@ -136,8 +135,6 @@ $names = & ctest --test-dir $testDir -N | ForEach-Object { if ($_ -match 'Test\s
 if (-not $names) { throw "ctest -N listed no tests." }
 & cmake --build $testDir --target @names; CheckExit "build tests"
 & ctest --test-dir $testDir --output-on-failure; CheckExit "ctest"
-
-Copy-Item (Join-Path $testDir "compile_commands.json") (Join-Path $ProjectDir "compile_commands.json") -Force
 
 # --- 5. Smoke run -------------------------------------------------------------
 if ($NoSmoke) { Write-Host "`nProject ready (smoke run skipped): $ProjectDir" -ForegroundColor Green; exit 0 }
